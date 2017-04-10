@@ -2427,9 +2427,9 @@
                 return;
             }
 
-            // Default to 0
+            // Default to 0.00
             if (_is.undefined(value)) {
-                value = 0;
+                value = 0.00;
             }
             // Default to buffer or bail
             if (_is.undefined(progress)) {
@@ -2446,7 +2446,13 @@
             } else if (progress) {
                 // Object of progress + text element
                 if (progress.bar) {
+                  try {
                     progress.bar.value = value;
+                  }
+                  catch(e) {
+                    e.message += " Progress 'value' was: '" + value + "' (" + typeof value + ")"
+                    throw e
+                  }
                 }
                 if (progress.text) {
                     progress.text.innerHTML = value;
